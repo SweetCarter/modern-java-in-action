@@ -9,7 +9,8 @@ package java8demo.lambda;
 @SuppressWarnings("ALL")
 public class c_方法引用 {
     /**
-     * 引用静态方法
+     * 对象::实例方法
+     * 类::静态方法
+     * 类::实例方法
      */
-    
 }

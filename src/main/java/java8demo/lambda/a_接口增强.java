@@ -12,6 +12,8 @@ public class a_接口增强 {
         testInterfaceImpl.print("apple");
         testInterfaceImpl.printDefault("printDefault");
         TestInterface.printStatic("printDefault");
+        
+        String result = getFunction("first").apply("second");
     }
     
     Function<String, String> getFunction(String first) {

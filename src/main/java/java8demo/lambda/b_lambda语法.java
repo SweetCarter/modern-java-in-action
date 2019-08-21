@@ -1,5 +1,13 @@
 package java8demo.lambda;
 
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -55,6 +63,73 @@ public class b_lambda语法 {
         匿名内部类.print(content);
         lambda.print(content);
         方法引用.print(content);
+    }
+    
+    @Test
+    public void Function() throws Exception {
+        //        lambda写法:
+        Function<Integer, String> function1 = (Integer number) -> {
+            return number + "";
+        };
+        // 简化
+        //        由于泛型参数指定了类型  参数类型可以推断出为Integer   所以参数类型Integer 可以省去
+        //        当只有一个参数，且其类型可推导时，圆括号()可省
+        //        如果 Lambda 表达式的主体只有一条语句，花括号{} 和 return 可省略
+        Function<Integer, String> function2 = number -> number + "";
+        // 泛型参数不指定类型时默认为Object
+        Function function = number -> number + "";
+        //方法引用
+        Function<Integer, String> function3 = String::valueOf;
+        //        调用
+        String result = function3.apply(110);
+        Assert.assertTrue(result instanceof String);
+    }
+    
+    @Test
+    public void Consumer() throws Exception {
+        //        lambda写法:
+        User user = new User("用户名" , "密码");
+        Consumer<User> consumer1 = (User somebody) -> {
+            System.out.println(somebody);
+        };
+        //简写
+        Consumer<User> consumer2 = somebody -> System.out.println(somebody);
+        //方法引用
+        Consumer<User> consumer3 = System.out::println;
+        //        调用
+        consumer3.accept(user);
+    }
+    
+    @Test
+    public void Supplier() throws Exception {
+        //        lambda写法:
+        Supplier<User> supplier1 = () -> {
+            return new User("名字" , "密码");
+        };
+        //简写
+        Supplier<User> supplier2 = () -> new User("名字" , "密码");
+        //方法引用(无参构造器)
+        Supplier<User> supplier3 = User::new;
+    }
+    
+    @Test
+    public void Predicate() throws Exception {
+        //        lambda写法:
+        Predicate<User> predicate1 = (User user) -> {
+            return Objects.nonNull(user);
+        };
+        //简写
+        Predicate<User> predicate2 = user -> Objects.nonNull(user);
+        //方法引用
+        Predicate<User> predicate3 = Objects::nonNull;
+    }
+    
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private class User {
+        
+        private String name;
+        private String password;
     }
 }
 
