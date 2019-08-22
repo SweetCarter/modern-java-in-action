@@ -1,4 +1,4 @@
-package java8demo.lambda;
+package java8demo.a_lambda;
 
 import java.util.function.Function;
 import org.junit.Test;
@@ -51,7 +51,7 @@ interface TestInterface {
      * 例如
      *
      * @see java.util.Collection java8 中
-     * 新增的额外方法 stream(), parallelStream(), forEach(),  removeIf()
+     * 新增的额外方法 b_stream(), parallelStream(), forEach(),  removeIf()
      */
     default void printDefault(String content) {
         System.out.println("default" + content);

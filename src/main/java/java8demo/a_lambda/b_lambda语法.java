@@ -1,12 +1,11 @@
-package java8demo.lambda;
+package java8demo.a_lambda;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import java8demo.数据.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +13,7 @@ import org.junit.Test;
  * 在JavaScript中，function的参数是一个function，返回值是另一个function的情况是非常常见的
  * JavaScript是一门非常典型的函数式语言
  *
- * Lambda表达式为Java添加了函数式编程特性，使我们能将函数当做⼀一等公⺠民看待
+ * Lambda表达式为Java添加了函数式编程特性，使我们能将函数当做一等公⺠民看待
  * • 在将函数作为⼀一等公⺠民的语⾔言中，Lambda表达式
  * 的类型是函数。但在Java中，Lambda表达式是对
  * 象，他们必须依附于⼀一类特别的对象类型——函
@@ -55,7 +54,7 @@ public class b_lambda语法 {
                 System.out.println(content);
             }
         };
-        //lambda
+        //a_lambda
         TestInterface lambda = content -> System.out.println(content);
         //方法引用
         TestInterface 方法引用 = System.out::println;
@@ -122,14 +121,6 @@ public class b_lambda语法 {
         Predicate<User> predicate2 = user -> Objects.nonNull(user);
         //方法引用
         Predicate<User> predicate3 = Objects::nonNull;
-    }
-    
-    @AllArgsConstructor
-    @NoArgsConstructor
-    private class User {
-        
-        private String name;
-        private String password;
     }
 }
 
