@@ -133,8 +133,8 @@ public class b_中间操作 {
 	}
 
 	/**
-	 * 乱序
-	 * unordered方法
+	 * unordered操作不会进行任何显式的打乱流的操作。
+	 * 作用是：消除流中必须保持的有序约束，允许之后的操作不必考虑有序
 	 */
 	@Test
 	public void unordered() {
