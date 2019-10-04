@@ -91,7 +91,7 @@ public class a_创建流 {
 	 * 5.  concat方法的作用是合并两个流
 	 */
 	@Test
-	public static void concat() {
+	public void concat() {
 		Stream<Character> concat = Stream.concat(characterStream("hello"), characterStream("JAVA"));
 	}
 
@@ -120,6 +120,9 @@ public class a_创建流 {
 		int[] nums = {1, 2, 3, 4, 5};
 		IntStream stream = IntStream.of(nums);
 		IntStream intStream = Arrays.stream(nums);
+
+		//原始类型流装箱
+		Stream<Integer> integerStream = intStream.boxed();
 
 		//		IntStream和LongStream  还有以下两个静态方法
 		//range(0, 100)					 0 -99 不含上限

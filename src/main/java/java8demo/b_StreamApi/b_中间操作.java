@@ -4,7 +4,9 @@ import java8demo.数据.ComparableBean;
 import java8demo.数据.User;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -57,13 +59,29 @@ public class b_中间操作 {
 	@Test
 	public void flatMap() {
 		//  假设	characterStream("HELLO") 的返回值为 ['h', 'e' , 'l' , 'l' , 'o' ]
+
 		//  则  streamStream的值为  [ ['h', 'e' , 'l' , 'l' , 'o' ] , [ 'J','A','V','A']  ]
-		Stream<Stream<Character>> streamStream = wordsStream.map(a_创建流::characterStream);
+//		Stream<Stream<Character>> streamStream = wordsStream.map(a_创建流::characterStream);
+
 		//  则  characterStream的值为   [ 'h', 'e' , 'l' , 'l' , 'o' , 'J', 'A' , 'V' , 'A' ]
-		Stream<Character> characterStream = wordsStream.flatMap(a_创建流::characterStream);
+//		Stream<Character> characterStream = wordsStream.flatMap(a_创建流::characterStream);
+
+		//  则  stringStream的值为   [ "h", "e" , "l" , "l" , "o" , "J", "A" , "V" , "A" ]
+//		Stream<String> stringStream = wordsStream.map(e -> e.split("")).flatMap(Stream::of);
 
 		//将 hello JAVA 的字符转换为对应ASCII值
 		IntStream intStream = wordsStream.flatMapToInt(e -> e.chars());
+
+
+		//使用 flatMap迭代多个集合
+		final List<Integer> number1 = Arrays.asList(1, 2, 3);
+		final List<Integer> number2 = Arrays.asList(4, 5);
+		final List<Integer> number3 = Arrays.asList(6, 7);
+		number1.stream()
+				.flatMap(a -> number2.stream().map(b -> new int[]{a, b}))
+				.flatMap(array -> number3.stream().map(c -> new int[]{array[0], array[1], c}
+				))
+				.forEach(array -> System.out.println(Arrays.toString(array)));
 	}
 
 
@@ -73,6 +91,8 @@ public class b_中间操作 {
 	@Test
 	public void distinct() {
 		Stream<Character> distinct = characterStream.distinct();
+		//使用 toSet也可以去重
+//		final Set<Character> collect = characterStream.collect(Collectors.toSet());
 	}
 
 	/**

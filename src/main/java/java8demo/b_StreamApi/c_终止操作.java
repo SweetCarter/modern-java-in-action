@@ -1,9 +1,11 @@
 package java8demo.b_StreamApi;
 
+import java8demo.数据.Dish;
 import java8demo.数据.User;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -167,15 +169,15 @@ public class c_终止操作 {
 		//收集所有姓名存入List
 		List<String> nameList = users.stream().map(User::getName).collect(toList());
 		//收集所有姓名存入Set (无重复)
-		Set<String> nameSet = users.stream().map(User::getName).collect(Collectors.toSet());
+		Set<String> nameSet = users.stream().map(User::getName).collect(toSet());
 		//收集所有姓名存入List (指定list的类型为LinkedList)
-		LinkedList<String> linkedList = users.stream().map(User::getName).collect(Collectors.toCollection(LinkedList::new));
+		LinkedList<String> linkedList = users.stream().map(User::getName).collect(toCollection(LinkedList::new));
 		//收集姓名年龄存入map中
-		Map<String, Integer> nameAge = users.stream().collect(Collectors.toMap(User::getName, User::getAge));
+		Map<String, Integer> nameAge = users.stream().collect(toMap(User::getName, User::getAge));
 		//收集所有姓名,连接成字符串,  按  , 隔开
-		String namesStr = users.stream().map(User::getName).collect(Collectors.joining(","));
+		String namesStr = users.stream().map(User::getName).collect(joining(","));
 		//对所有人年龄进行分析
-		IntSummaryStatistics agesStatistics = users.stream().collect(Collectors.summarizingInt(User::getAge));
+		IntSummaryStatistics agesStatistics = users.stream().collect(summarizingInt(User::getAge));
 		//最大值
 		int max = agesStatistics.getMax();
 		//最小值
@@ -214,11 +216,20 @@ public class c_终止操作 {
 		//使用 downstream 收集器  按年龄分组,收集姓名
 		Map<Integer, List<String>> group3 = users.stream().collect(Collectors.groupingBy(User::getAge, mapping(User::getName, toList())));
 		// 使用 downstream 收集器 会产生很复杂的表达式,通过静态导包可简化代码
-		//		import static java.util.stream.Collectors.*;
+		//		import static java.util.stream.*;
 		Map<Integer, List<String>> group4 = users.stream().collect(groupingBy(User::getAge, mapping(User::getName, toList())));
 
 		//使用 downstream 收集器  按年龄段分组,收集该年龄段下的人数
 		Map<String, Long> group5 = users.stream().collect(groupingBy(userStringFunction, counting()));
+
+
+		//按type分组，查找每组热量最高的dish
+		Map<Dish.Type, Dish> collect = Dish.menu.stream().collect(groupingBy(Dish::getType, collectingAndThen(maxBy(Comparator.comparing(Dish::getCalories)), Optional::get)));
+		//使用 toMap的三参数方法
+		// 		* @param keyMapper 获得key的函数
+		// 		* @param valueMapper 获得value的函数
+		// 		* @param mergeFunction 处理相同key的函数
+		collect = Dish.menu.stream().collect(toMap(Dish::getType, Function.identity(), BinaryOperator.maxBy(Comparator.comparing(Dish::getCalories))));
 	}
 
 
