@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -93,8 +95,20 @@ public class b_中间操作 {
 		Stream<Character> distinct = characterStream.distinct();
 		//使用 toSet也可以去重
 //		final Set<Character> collect = characterStream.collect(Collectors.toSet());
+		//条件去重 	名称一致视为对象一致
+//		userStream.filter(distinctByKey(User::getName)).collect(Collectors.toList());
 	}
 
+	/**
+	 * @param keyExtractor _
+	 * @param <T> 参数key
+	 * @return _
+	 */
+	public <T> Predicate<? super T> distinctByKey(Function<? super T, Object> keyExtractor) {
+		//支持并行流
+		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+		return element -> seen.putIfAbsent(keyExtractor.apply(element), Boolean.TRUE) == null;
+	}
 	/**
 	 * 截断流
 	 * limit方法的作用是指定返回流的个数
